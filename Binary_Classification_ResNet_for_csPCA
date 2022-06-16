@@ -1,0 +1,50 @@
+#Package Imports 
+import tensorflow as tf 
+from tensorflow import keras 
+from keras.applications.resnet50 import ResNet50  
+from tensorflow.keras import models  
+from tensorflow.keras.layers import Conv2D, MaxPooling2D, Flatten, Dense, Dropout, InputLayer 
+from tensorflow.keras.models import Sequential 
+from tensorflow.keras import optimizers 
+ 
+#Parameters 
+batch_size = 32 
+IMG_ HEIGHT = 512 
+IMG_WIDTH = 512 
+ 
+#training dataset = aug_ds and validation set = val_ds 
+#Prepare the model, for this we're using a pretrained model on "imagenet" data 
+#I define the model type, the model output, and the last layer to be removed
+modnet = modeltype 
+output = modnet.layers[-1].output 
+output2 = keras.layers.Flatten()(output) 
+modnet = keras.Model(modnet.input, outputs=output2) 
+  
+#Setup model for transfer learning process
+        layer.trainable = False 
+modnet.summary() 
+model = Sequential() 
+model.add(modnet) 
+ 
+model.add(Dense(512, activation='relu', input_dim=(IMG_HEIGHT,IMG_WIDTH,3))) 
+model.add(Dropout(0.3)) 
+ 
+model.add(Dense(512, activation='relu', input_dim=(IMG_HEIGHT,IMG_WIDTH,3))) 
+model.add(Dropout(0.3)) 
+ 
+model.add(Dense(512, activation='relu', input_dim=(IMG_HEIGHT,IMG_WIDTH,3))) 
+model.add(Dropout(0.3)) 
+ 
+model.add(Dense(512, activation='relu', input_dim=(IMG_HEIGHT,IMG_WIDTH,3))) 
+model.add(Dropout(0.3)) 
+ 
+model.compile(loss='binary_crossentropy', 
+              optimizer=optimizers.RMSprop(lr=2e-5), 
+              metrics=['accuracy', 'mean_absolute_error', 'mean_squared_error']) 
+model.summary() 
+history = model.fit(aug_ds.repeat(), 
+                        steps_per_epoch=int(100/batch_size), 
+                        epochs=epocsnum, 
+                        validation_data=val_ds.repeat(), 
+                        validation_steps=int(50/batch_size), 
+                        callbacks=[csv_logger, time_callback]) 
