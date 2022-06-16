@@ -13,6 +13,25 @@ IMG_ HEIGHT = 512
 IMG_WIDTH = 512 
  
 #training dataset = aug_ds and validation set = val_ds 
+#Insert your files here
+train_ds = tf.keras.preprocessing.image_dataset_from_directory(
+      directory,
+      #If you need to split directory into training/ testing and don't already have it split - do it here
+      #validation_split=0.8,
+      #subset="training",
+      seed=123,
+      image_size=(IMG_HEIGHT, IMG_WIDTH),
+      batch_size=batch_size)
+
+val_ds = tf.keras.preprocessing.image_dataset_from_directory(
+      valdirectory,
+      #If you need to split directory into training/ testing and don't already have it split - do it here
+      #validation_split=0.8,
+      #subset="validation",
+      seed=123,
+      image_size=(IMG_HEIGHT, IMG_WIDTH),
+      batch_size=batch_size)
+
 #Prepare the model, for this we're using a pretrained model on "imagenet" data 
 #I define the model type, the model output, and the last layer to be removed
 modnet = modeltype 
