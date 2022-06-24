@@ -1,0 +1,46 @@
+#########################################################################################################################################################
+#####The following code identifies a lesion based on a Radiologist tracing for an individual image and redraws it alone with a red box around it#########
+##################The slice mask here can also be used to feed into a segmentation model#################################################################
+
+#Import packages here
+from skimage.color import label2rgb
+import numpy as np
+import matplotlib.pyplot as plt
+import matplotlib.path as Path
+import cv2 as cv
+
+#Load in your image
+slice_img = cv.imread(#yourfilepathhere,0)
+
+#Identify pixels used to trace the image - in this case my tracings were in 255 (White). If you had a red color you'd set this threshhold accordingly
+slice_img[slice_img <254 ] = 0
+
+#Create an empty file to hold the new tracing data inside
+slice_mask = np.zeros(slice_img.shape)
+
+#Identify the contours from the threshholded image above - in this case we're looking for the biggest one (The whole tracing)
+contours, hierarchy = cv.findContours(slice_img, cv.RETR_TREE, cv.CHAIN_APPROX_SIMPLE)
+
+#Find the biggest contour (the tracing) and draw it on the new blank image. The fill it in
+tracing = max(contours,key = cv.contourArea)
+cv.drawContours(slice_mask, tracing, -1, (255,255,255), -1)
+cv.fillPoly(slice_mask, tracing, (255,255,255))
+
+#Create a bounding box to draw around the tracing
+cv.boundingRect(tracing)
+(x,y,w,h) = cv.boundingRect(tracing)
+max_x, max_y = x+w, y+h
+rect = cv.rectangle(slice_mask, (x, y), (max_x, max_y), (255, 0, 0), -1)
+plt.imshow(rect, cmap='gray')
+
+
+#To get just segmented part of images, multiply the mask by the image so that the 0's in our mask make all of the areas outside of our tracing mask 0
+segmented = slice_mask*slice_img
+
+#Plot the new segmented image
+plt.imshow(segmented, cmap='gray')
+
+
+#To display box on image
+segmented = label2rgb(slice_mask > 0, slice_img, bg_label=0, )
+plt.imshow(segmented, cmap='gray')
