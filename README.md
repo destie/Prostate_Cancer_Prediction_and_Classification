@@ -15,5 +15,6 @@ Code and details are provided here to assist others interested in building model
 
 
 **If you find this project or code helpful and would like to use any of it, please cite the following study:
+**
 
 Provenzano D, Melnyk O, Whalen M, Loew M, Haji-Momenian S. Performance of a highly accurate prostate cancer machine learning algorithm on MR image data from a different institution: do the results hold up? ARRS. Presented May 2022. 
