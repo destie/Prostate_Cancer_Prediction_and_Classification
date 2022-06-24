@@ -13,6 +13,16 @@ This project utilized 2-Dimensional data (Single MRI DICOM slices from the PX da
 
 Code and details are provided here to assist others interested in building models on Prostate MRI. In particular due to the popularity of the ProstateX data, code is provided here to assist others utilizing this data. 
 
+Included code files:
+**Binary_Classification_ResNet_for_csPCA**
+Creates a ResNet classification model for clinically significant (csPCA) vs not clinically significant PCA. This is just the training and testing component. 
+
+**Identify_Lesion_From_Tracing**
+This creates a "slice mask" of the pixels corresponding to a lesion identified by radiologist tracing. This code also includes code to draw a box around the lesion and plot just the area contained in the tracing on a new file.
+
+**Organize_ProstateX_Data_BMP_Files 
+**
+This code organizes the ProstateX T2W BMP files into Cancer (csPCA) vs not cancer directories for an easy model build. This is included to assist others interested in an easy start model without doing the full DICOM digging, or to use the BMP files with the DICOM files to make a full model. 
 
 **If you find this project or code helpful and would like to use any of it, please cite the following study:
 **
